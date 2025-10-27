@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgüíTech | Automatiza tu negocio con IA</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top, #0a0a23, #000);
+      color: #eaeaea;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    header {
+      text-align: center;
+      padding: 5em 1em;
+      background: linear-gradient(135deg, #141432, #1f1f48);
+    }
+
+    header h1 {
+      font-size: 2.8em;
+      color: #00d1ff;
+      margin-bottom: 0.3em;
+    }
+
+    header p {
+      font-size: 1.2em;
+      color: #c7c7c7;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    section {
+      max-width: 900px;
+      margin: 3em auto;
+      padding: 2em;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 209, 255, 0.08);
+      backdrop-filter: blur(10px);
+    }
+
+    h2 {
+      color: #00d1ff;
+      border-left: 4px solid #00d1ff;
+      padding-left: 10px;
+      margin-bottom: 0.5em;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 1em 0;
+    }
+
+    ul li {
+      padding: 0.5em 0;
+    }
+
+    ul li::before {
+      content: "⚙️ ";
+    }
+
+    .about strong {
+      color: #00d1ff;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.8em;
+      margin: 0.5em 0;
+      border: 1px solid #333;
+      border-radius: 8px;
+      background: #111;
+      color: white;
+      font-size: 1em;
+    }
+
+    button {
+      background: linear-gradient(135deg, #00d1ff, #0050ff);
+      color: white;
+      border: none;
+      padding: 1em 1.5em;
+      font-size: 1.1em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #00d1ff;
+    }
+
+    #status {
+      margin-top: 1em;
+      font-weight: bold;
+      color: #00ffb7;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2em;
+      color: #888;
+      font-size: 0.9em;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 4em;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2em;
+      }
+      section {
+        margin: 1em;
+        padding: 1.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Transforma tu negocio con AgüíTech</h1>
+    <p>Automatiza tareas, ahorra tiempo y escala tu productividad con soluciones inteligentes impulsadas por IA y n8n.</p>
+  </header>
+
+  <section>
+    <h2>🚀 Servicios de Automatización</h2>
+    <ul>
+      <li>Envío automático de correos y respuestas personalizadas</li>
+      <li>Gestión inteligente de formularios y hojas de cálculo</li>
+      <li>Recordatorios automáticos para clientes o equipos</li>
+      <li>Integraciones con Gmail, WhatsApp, Telegram, Google Sheets y más</li>
+    </ul>
+  </section>
+
+  <section class="about">
+    <h2>👋 Sobre mí</h2>
+    <p>Soy <strong>Marco Agüí</strong>, fundador de <strong>AgüíTech</strong> y estudiante de Ingeniería Informática en <em>Edge Hill University</em>.</p>
+    <p>Me apasiona ayudar a emprendedores y negocios a <strong>liberarse de las tareas repetitivas</strong> mediante automatizaciones que ahorran horas cada semana.</p>
+    <p>Trabajo contigo de forma cercana y sencilla: tú me cuentas tus procesos, y yo diseño un sistema que los ejecute por ti usando <strong>n8n + inteligencia artificial</strong>.</p>
+    <p><em>El resultado: más productividad, menos estrés y más tiempo para enfocarte en hacer crecer tu negocio.</em></p>
+  </section>
+
+  <section>
+    <h2>🧠 Solicita una demostración gratuita</h2>
+    <form id="contactForm">
+      <input type="text" name="nombre" placeholder="Tu nombre" required>
+      <input type="email" name="email" placeholder="Tu correo" required>
+      <textarea name="mensaje" placeholder="Cuéntame brevemente qué te gustaría automatizar" required></textarea>
+      <button type="submit">Quiero mi demo gratuita</button>
+    </form>
+    <p id="status"></p>
+  </section>
+
+  <footer>
+    © 2025 AgüíTech · Automatización Inteligente con IA · Todos los derechos reservados <a href="mailto:aguitechai@gmail.com">Send email</a><
+  </footer>
+
+  <script>
+    document.getElementById("contactForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+      const status = document.getElementById("status");
+
+      try {
+        const response = await fetch("http://localhost:5678/webhook-test/landing-form", { 
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        if (response.ok) {
+          status.textContent = "✅ Formulario enviado correctamente. ¡Gracias!";
+          e.target.reset();
+        } else {
+          status.textContent = "❌ Hubo un error al enviar el formulario.";
+        }
+      } catch (error) {
+        status.textContent = "⚠️ No se pudo conectar con el servidor.";
+      }
+    });
+  </script>
+</body>
+</html>
